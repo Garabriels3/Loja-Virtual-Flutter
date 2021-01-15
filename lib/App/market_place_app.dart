@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/pages/base/base_page.dart';
+import 'package:loja_virtual/ui/base/base_page.dart';
 
 class MarketPlaceApp extends StatelessWidget {
   @override
