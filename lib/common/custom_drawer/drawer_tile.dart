@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/models/page_manager.dart';
+import 'package:loja_virtual/core/dimens.dart';
+import 'package:loja_virtual/ui/base/base_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DrawerTile extends StatelessWidget {
@@ -11,28 +12,28 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int curPage = context.watch<PageManager>().page;
+    final viewmodel = context.watch<BaseScreenViewModel>();
     final Color primaryColor = Theme.of(context).primaryColor;
 
     return InkWell(
       onTap: () {
-        context.read<PageManager>().setPage(page);
+        viewmodel.setPage(page);
       },
       child: SizedBox(
-        height: 60,
+        height: sixty,
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.symmetric(horizontal: thirtyTwo),
               child: Icon(
                 iconData,
-                size: 32,
-                color: curPage == page ? primaryColor : Colors.grey[700],
+                size: thirtyTwo,
+                color: viewmodel.page == page ? primaryColor : Colors.grey[700],
               ),
             ),
             Text(
               menuOptionTitle,
-              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+              style: TextStyle(fontSize: sixteen, color: Colors.grey[700]),
             )
           ],
         ),

@@ -1,99 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/core/dimens.dart';
+import 'package:loja_virtual/core/strings.dart';
 import 'package:loja_virtual/helpers/validators.dart';
-import 'package:loja_virtual/models/user.dart';
-import 'package:loja_virtual/models/user_manager.dart';
+import 'package:loja_virtual/ui/login/login_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = Provider.of<LoginViewModel>(context);
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Text("Entrar"),
+        title: Text(LOGIN_BUTTON_LABEL),
         centerTitle: true,
       ),
       body: Center(
         child: Card(
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          margin: EdgeInsets.symmetric(horizontal: sixteen),
           child: Form(
             key: formKey,
             child: ListView(
-                padding: EdgeInsets.all(16),
-                shrinkWrap: true,
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "E-mail"),
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    validator: (email) {
-                      if (!emailIsValid(email)) {
-                        return "Email invalido!";
-                      }
+              padding: EdgeInsets.all(sixteen),
+              shrinkWrap: true,
+              children: [
+                TextFormField(
+                  controller: emailController,
+                  onChanged: (email) => viewmodel.changeEmail(email),
+                  decoration: InputDecoration(hintText: EMAIL_HINT_TEXT),
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  validator: (email) {
+                    if (!emailIsValid(email)) {
+                      return EMAIL_INVALID;
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: sixteen,
+                ),
+                TextFormField(
+                  controller: passController,
+                  onChanged: (pass) => viewmodel.changePassword(pass),
+                  decoration: InputDecoration(hintText: PASS_HINT_TEXT),
+                  keyboardType: TextInputType.text,
+                  autocorrect: false,
+                  obscureText: true,
+                  validator: (pass) {
+                    if (pass.isEmpty || pass.length < EIGHT_LENGTH) {
+                      return PASS_INVALID;
+                    } else {
                       return null;
-                    },
+                    }
+                  },
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: FlatButton(
+                    onPressed: () {},
+                    padding: EdgeInsets.zero,
+                    child: Text(FORGOT_PASS),
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "Senha"),
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    obscureText: true,
-                    validator: (pass) {
-                      if (pass.isEmpty || pass.length < 6) {
-                        return "Senha invalida!";
-                      } else {
-                        return null;
+                ),
+                SizedBox(
+                  height: sixteen,
+                ),
+                SizedBox(
+                  height: fortyFour,
+                  child: RaisedButton(
+                    onPressed: () {
+                      if (formKey.currentState.validate()) {
+                        viewmodel.signUser(onFail: (e) {
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Falha ao entrar: $e"),
+                            backgroundColor: Colors.red,
+                          ));
+                        }, onSuccess: (uid) {
+                          debugPrint(uid);
+                        });
                       }
                     },
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: FlatButton(
-                      onPressed: () {},
-                      padding: EdgeInsets.zero,
-                      child: Text("Esqueci minha senha"),
+                    child: Text(
+                      LOGIN_BUTTON_LABEL,
+                      style: TextStyle(fontSize: eighteen),
                     ),
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    height: 44,
-                    child: RaisedButton(
-                      onPressed: () {
-                        if (formKey.currentState.validate()) {
-                          context.read<UserManager>().signIn(
-                              user: User(
-                                  email: emailController.text,
-                                  password: passController.text),
-                              onFail: (e) {
-                                scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Falha ao entrar: $e'),
-                                  backgroundColor: Colors.red,
-                                ));
-                              },
-                              onSuccess: () {
-                                // TODO: FECHAR TELA DE LOGIN
-                              });
-                        }
-                      },
-                      child: Text(
-                        "Entrar",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      color: Theme.of(context).primaryColor,
-                      textColor: Colors.white,
-                    ),
-                  )
-                ]),
+                )
+              ],
+            ),
           ),
         ),
       ),
