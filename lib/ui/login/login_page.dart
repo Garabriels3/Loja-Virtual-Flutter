@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:loja_virtual/core/dimens.dart';
 import 'package:loja_virtual/core/strings.dart';
 import 'package:loja_virtual/helpers/validators.dart';
@@ -21,6 +22,17 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(LOGIN_BUTTON_LABEL),
         centerTitle: true,
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).popAndPushNamed('/signUp');
+            },
+            child: Text(
+              REGISTER_BUTTON_LABEL,
+              style: TextStyle(color: Colors.white, fontSize: eighteen),
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Card(
@@ -31,37 +43,43 @@ class LoginPage extends StatelessWidget {
               padding: EdgeInsets.all(sixteen),
               shrinkWrap: true,
               children: [
-                TextFormField(
-                  controller: emailController,
-                  onChanged: (email) => viewmodel.changeEmail(email),
-                  decoration: InputDecoration(hintText: EMAIL_HINT_TEXT),
-                  keyboardType: TextInputType.emailAddress,
-                  autocorrect: false,
-                  validator: (email) {
-                    if (!emailIsValid(email)) {
-                      return EMAIL_INVALID;
-                    }
-                    return null;
-                  },
-                ),
+                Observer(builder: (_) {
+                  return TextFormField(
+                    controller: emailController,
+                    onChanged: (email) => viewmodel.changeEmail(email),
+                    decoration: InputDecoration(hintText: EMAIL_HINT_TEXT),
+                    keyboardType: TextInputType.emailAddress,
+                    enabled: !viewmodel.loading,
+                    autocorrect: false,
+                    validator: (email) {
+                      if (!emailIsValid(email)) {
+                        return EMAIL_INVALID;
+                      }
+                      return null;
+                    },
+                  );
+                }),
                 SizedBox(
                   height: sixteen,
                 ),
-                TextFormField(
-                  controller: passController,
-                  onChanged: (pass) => viewmodel.changePassword(pass),
-                  decoration: InputDecoration(hintText: PASS_HINT_TEXT),
-                  keyboardType: TextInputType.text,
-                  autocorrect: false,
-                  obscureText: true,
-                  validator: (pass) {
-                    if (pass.isEmpty || pass.length < EIGHT_LENGTH) {
-                      return PASS_INVALID;
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
+                Observer(builder: (_) {
+                  return TextFormField(
+                    controller: passController,
+                    onChanged: (pass) => viewmodel.changePassword(pass),
+                    decoration: InputDecoration(hintText: PASS_HINT_TEXT),
+                    keyboardType: TextInputType.text,
+                    enabled: !viewmodel.loading,
+                    autocorrect: false,
+                    obscureText: true,
+                    validator: (pass) {
+                      if (pass.isEmpty || pass.length < EIGHT_LENGTH) {
+                        return PASS_INVALID;
+                      } else {
+                        return null;
+                      }
+                    },
+                  );
+                }),
                 Align(
                   alignment: Alignment.centerRight,
                   child: FlatButton(
@@ -75,27 +93,41 @@ class LoginPage extends StatelessWidget {
                 ),
                 SizedBox(
                   height: fortyFour,
-                  child: RaisedButton(
-                    onPressed: () {
-                      if (formKey.currentState.validate()) {
-                        viewmodel.signUser(onFail: (e) {
-                          scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: Text("Falha ao entrar: $e"),
-                            backgroundColor: Colors.red,
-                          ));
-                        }, onSuccess: (uid) {
-                          debugPrint(uid);
-                        });
-                      }
+                  child: Observer(
+                    builder: (_) {
+                      return RaisedButton(
+                        onPressed: viewmodel.loading
+                            ? null
+                            : () {
+                                if (formKey.currentState.validate()) {
+                                  viewmodel.signUser(
+                                      onFail: (e) {
+                                        scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          content: Text("Falha ao entrar: $e"),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                      },
+                                      onSuccess: (uid) {});
+                                }
+                              },
+                        child: viewmodel.loading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
+                              )
+                            : Text(
+                                LOGIN_BUTTON_LABEL,
+                                style: TextStyle(fontSize: eighteen),
+                              ),
+                        color: Theme.of(context).primaryColor,
+                        disabledColor:
+                            Theme.of(context).primaryColor.withAlpha(100),
+                        textColor: Colors.white,
+                      );
                     },
-                    child: Text(
-                      LOGIN_BUTTON_LABEL,
-                      style: TextStyle(fontSize: eighteen),
-                    ),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
                   ),
-                )
+                ),
               ],
             ),
           ),

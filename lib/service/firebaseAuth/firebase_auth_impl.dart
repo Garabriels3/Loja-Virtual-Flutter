@@ -6,12 +6,20 @@ import 'package:loja_virtual/models/user.dart';
 import 'package:loja_virtual/service/firebaseAuth/firebase_auth_I.dart';
 
 class FireBaseAuthImpl implements FirebaseAuthI {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<String> getCurrentUser() {
-    // TODO: implement getCurrentUser
-    throw UnimplementedError();
+  Future<void> getCurrentUser({Function onFail, Function onSuccess}) async {
+    try {
+      FirebaseUser user = await _auth.currentUser();
+      if (user != null) {
+        onSuccess(user);
+        return;
+      }
+      onFail();
+    } on PlatformException catch (e) {
+      return onFail(errorMessage: getErrorString(e.code));
+    }
   }
 
   @override
@@ -35,7 +43,7 @@ class FireBaseAuthImpl implements FirebaseAuthI {
   @override
   Future<VoidResult> signIn({User userRequest}) async {
     try {
-      AuthResult result = await auth.signInWithEmailAndPassword(
+      AuthResult result = await _auth.signInWithEmailAndPassword(
           email: userRequest.email, password: userRequest.password);
       FirebaseUser user = result.user;
       return VoidResult(userId: user.uid);
@@ -51,13 +59,15 @@ class FireBaseAuthImpl implements FirebaseAuthI {
   }
 
   @override
-  Future<void> signUp({User user, Function onFail, Function onSuccess}) async {
+  Future<VoidResult> signUp(
+      {User userRequest}) async {
     try {
-      final AuthResult result = await auth.createUserWithEmailAndPassword(
-          email: user.email, password: user.password);
-      onSuccess(result.user.uid);
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
+          email: userRequest.email, password: userRequest.password);
+      FirebaseUser user = result.user;
+      return VoidResult(userId: user.uid);
     } on PlatformException catch (e) {
-      onFail(getErrorString(e.code));
+      return VoidResult(errorMessage: getErrorString(e.code));
     }
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/ui/base/base_page.dart';
 import 'package:loja_virtual/ui/base/base_viewmodel.dart';
+import 'package:loja_virtual/ui/login/login_page.dart';
 import 'package:loja_virtual/ui/login/login_viewmodel.dart';
+import 'package:loja_virtual/ui/signUp/sign_up_page.dart';
+import 'package:loja_virtual/ui/signUp/sign_up_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class MarketPlaceApp extends StatelessWidget {
@@ -11,6 +14,8 @@ class MarketPlaceApp extends StatelessWidget {
       providers: [
         Provider<BaseScreenViewModel>(create: (_) => BaseScreenViewModel()),
         Provider<LoginViewModel>(create: (_) => LoginViewModel()),
+        Provider<SignUpViewModel>(create: (_) => SignUpViewModel()),
+        Provider(create: (_) => LoginViewModel().getCurrentUser()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -21,7 +26,18 @@ class MarketPlaceApp extends StatelessWidget {
           appBarTheme: AppBarTheme(elevation: 0),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: BaseScreen(),
+        initialRoute: '/base',
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/signUp':
+              return MaterialPageRoute(builder: (_) => SignUpPage());
+            case '/login':
+              return MaterialPageRoute(builder: (_) => LoginPage());
+            case '/base':
+            default:
+              return MaterialPageRoute(builder: (_) => BaseScreen());
+          }
+        },
       ),
     );
   }

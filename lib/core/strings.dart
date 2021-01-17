@@ -6,6 +6,11 @@ const PASS_HINT_TEXT = "Senha";
 const FORGOT_PASS = "Esqueci minha senha";
 const EIGHT_LENGTH = 8;
 const LOGIN_BUTTON_LABEL = "Entrar";
+const REGISTER_BUTTON_LABEL = "CRIAR CONTA";
+
+//Register Strings
+const REGISTER_BAR_TITLE = "Criar Conta";
+const REGISTER_BUTTON_TITLE = "REGISTRAR";
 
 //Base Strings
 const HOME_LABEL = "Home";

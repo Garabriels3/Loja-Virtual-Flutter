@@ -8,13 +8,14 @@ abstract class _BaseScreenViewModelBase with Store {
 
   PageController pageController = PageController();
 
+  int get page => _page;
   @observable
-  int page;
+  int _page = 0;
 
   @action
   void setPage(int value) {
     if (value == page) return;
-    page = value;
+    _page = value;
     pageController.jumpToPage(page);
   }
 }

@@ -4,11 +4,11 @@ import 'package:loja_virtual/models/user.dart';
 abstract class FirebaseAuthI {
   Future<VoidResult> signIn({User userRequest});
 
-  Future<void> signUp({User user, Function onFail, Function onSuccess});
+  Future<VoidResult> signUp({User userRequest});
 
   Future<void> resetPassword(String email);
 
-  Future<String> getCurrentUser();
+  Future<void> getCurrentUser({Function onFail, Function onSuccess});
 
   Future<void> sendEmailVerification();
 
