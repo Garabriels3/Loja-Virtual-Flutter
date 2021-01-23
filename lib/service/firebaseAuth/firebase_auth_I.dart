@@ -12,7 +12,7 @@ abstract class FirebaseAuthI {
 
   Future<void> sendEmailVerification();
 
-  Future<void> signOut();
+  Future<void> signOut({Function onFail, Function onSuccess});
 
   Future<bool> isEmailVerified();
 }

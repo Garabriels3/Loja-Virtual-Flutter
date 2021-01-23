@@ -13,9 +13,8 @@ class MarketPlaceApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<BaseScreenViewModel>(create: (_) => BaseScreenViewModel()),
-        Provider<LoginViewModel>(create: (_) => LoginViewModel()),
+        Provider<LoginViewModel>(create: (_) => LoginViewModel(), lazy: false,),
         Provider<SignUpViewModel>(create: (_) => SignUpViewModel()),
-        Provider(create: (_) => LoginViewModel().getCurrentUser()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

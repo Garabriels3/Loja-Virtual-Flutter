@@ -100,11 +100,28 @@ class SignUpPage extends StatelessWidget {
                   child: Observer(
                     builder: (_) {
                       return RaisedButton(
-                        onPressed: () {
-                          viewmodel.validateConfirmationPass(
-                            onSuccess: () {
-                              if (formKey.currentState.validate()) {
-                                viewmodel.signUpUser(
+                        onPressed: viewmodel.loading
+                            ? null
+                            : () {
+                                viewmodel.validateConfirmationPass(
+                                  onSuccess: () {
+                                    if (formKey.currentState.validate()) {
+                                      viewmodel.signUpUser(
+                                        onFail: (e) {
+                                          scaffoldKey.currentState.showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  "Falha ao cadastrar: $e"),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        },
+                                        onSuccess: (uid) {
+                                          Navigator.of(context).pop();
+                                        },
+                                      );
+                                    }
+                                  },
                                   onFail: (e) {
                                     scaffoldKey.currentState.showSnackBar(
                                       SnackBar(
@@ -113,22 +130,8 @@ class SignUpPage extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  onSuccess: (uid) {
-                                    print(uid);
-                                  },
                                 );
-                              }
-                            },
-                            onFail: (e) {
-                              scaffoldKey.currentState.showSnackBar(
-                                SnackBar(
-                                  content: Text("Falha ao cadastrar: $e"),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            },
-                          );
-                        },
+                              },
                         child: viewmodel.loading
                             ? CircularProgressIndicator(
                                 valueColor:

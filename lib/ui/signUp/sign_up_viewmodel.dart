@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/user.dart';
 import 'package:loja_virtual/service/firebaseAuth/firebase_auth_impl.dart';
+import 'package:loja_virtual/service/firebaseStore/firebase_store_Impl.dart';
 import 'package:mobx/mobx.dart';
 part 'sign_up_viewmodel.g.dart';
 
@@ -8,6 +8,8 @@ class SignUpViewModel = _SignUpViewModelBase with _$SignUpViewModel;
 
 abstract class _SignUpViewModelBase with Store {
   final auth = FireBaseAuthImpl();
+
+  final store = FirebaseStoreImpl();
 
   String get name => _name;
   @observable
@@ -51,10 +53,10 @@ abstract class _SignUpViewModelBase with Store {
     auth
         .signUp(
             userRequest: User(
-                email: email,
-                name: name,
-                password: pass,
-                passwordConfirmation: passConfirmation))
+            email: email.trim(),
+            name: name.trim(),
+            password: pass.trim(),
+            passwordConfirmation: passConfirmation.trim()))
         .then((value) {
       if (!value.success) {
         onFail(value.errorMessage);
@@ -62,9 +64,20 @@ abstract class _SignUpViewModelBase with Store {
         _snackError = true;
       } else {
         onSuccess(value.userId);
+        createUserOnFireStore(uid: value.userId);
         _loading = false;
       }
     });
+  }
+
+  void createUserOnFireStore({String uid}) {
+    store.createUser(
+        uid,
+        User(
+            email: email.trim(),
+            name: name.trim(),
+            password: pass.trim(),
+            passwordConfirmation: passConfirmation.trim()));
   }
 
   void validateConfirmationPass({Function onFail, Function onSuccess}) {

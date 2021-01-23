@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:loja_virtual/helpers/firebase_errors.dart';
@@ -12,11 +13,7 @@ class FireBaseAuthImpl implements FirebaseAuthI {
   Future<void> getCurrentUser({Function onFail, Function onSuccess}) async {
     try {
       FirebaseUser user = await _auth.currentUser();
-      if (user != null) {
-        onSuccess(user);
-        return;
-      }
-      onFail();
+      onSuccess(user);
     } on PlatformException catch (e) {
       return onFail(errorMessage: getErrorString(e.code));
     }
@@ -53,14 +50,17 @@ class FireBaseAuthImpl implements FirebaseAuthI {
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut({Function onFail, Function onSuccess}) {
+    try {
+      _auth.signOut();
+      onSuccess();
+    } on PlatformException catch (e) {
+        onFail(error: getErrorString(e.code));
+    }
   }
 
   @override
-  Future<VoidResult> signUp(
-      {User userRequest}) async {
+  Future<VoidResult> signUp({User userRequest}) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: userRequest.email, password: userRequest.password);

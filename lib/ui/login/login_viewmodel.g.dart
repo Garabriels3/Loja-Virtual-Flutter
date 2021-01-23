@@ -39,18 +39,18 @@ mixin _$LoginViewModel on _LoginViewModelBase, Store {
     });
   }
 
-  final _$_currentUserAtom = Atom(name: '_LoginViewModelBase._currentUser');
+  final _$_userAtom = Atom(name: '_LoginViewModelBase._user');
 
   @override
-  FirebaseUser get _currentUser {
-    _$_currentUserAtom.reportRead();
-    return super._currentUser;
+  User get _user {
+    _$_userAtom.reportRead();
+    return super._user;
   }
 
   @override
-  set _currentUser(FirebaseUser value) {
-    _$_currentUserAtom.reportWrite(value, super._currentUser, () {
-      super._currentUser = value;
+  set _user(User value) {
+    _$_userAtom.reportWrite(value, super._user, () {
+      super._user = value;
     });
   }
 
@@ -67,6 +67,15 @@ mixin _$LoginViewModel on _LoginViewModelBase, Store {
     _$_loadingAtom.reportWrite(value, super._loading, () {
       super._loading = value;
     });
+  }
+
+  final _$getCurrentUserAsyncAction =
+      AsyncAction('_LoginViewModelBase.getCurrentUser');
+
+  @override
+  Future<void> getCurrentUser({String uid}) {
+    return _$getCurrentUserAsyncAction
+        .run(() => super.getCurrentUser(uid: uid));
   }
 
   final _$_LoginViewModelBaseActionController =
@@ -95,11 +104,11 @@ mixin _$LoginViewModel on _LoginViewModelBase, Store {
   }
 
   @override
-  void getCurrentUser() {
+  void signOut({Function onFail, Function onSuccess}) {
     final _$actionInfo = _$_LoginViewModelBaseActionController.startAction(
-        name: '_LoginViewModelBase.getCurrentUser');
+        name: '_LoginViewModelBase.signOut');
     try {
-      return super.getCurrentUser();
+      return super.signOut(onFail: onFail, onSuccess: onSuccess);
     } finally {
       _$_LoginViewModelBaseActionController.endAction(_$actionInfo);
     }

@@ -16,6 +16,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<LoginViewModel>(context);
+    viewmodel.getCurrentUser();
 
     return Scaffold(
       key: scaffoldKey,
@@ -25,7 +26,7 @@ class LoginPage extends StatelessWidget {
         actions: [
           FlatButton(
             onPressed: () {
-              Navigator.of(context).popAndPushNamed('/signUp');
+              Navigator.of(context).pushNamed('/signUp');
             },
             child: Text(
               REGISTER_BUTTON_LABEL,
@@ -108,7 +109,9 @@ class LoginPage extends StatelessWidget {
                                           backgroundColor: Colors.red,
                                         ));
                                       },
-                                      onSuccess: (uid) {});
+                                      onSuccess: (uid) {
+                                         Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                                      });
                                 }
                               },
                         child: viewmodel.loading

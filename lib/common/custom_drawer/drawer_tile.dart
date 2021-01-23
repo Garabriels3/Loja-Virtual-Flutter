@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:loja_virtual/core/dimens.dart';
 import 'package:loja_virtual/ui/base/base_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewmodel = context.watch<BaseScreenViewModel>();
+    final viewmodel = Provider.of<BaseScreenViewModel>(context);
     final Color primaryColor = Theme.of(context).primaryColor;
 
     return InkWell(
@@ -25,16 +26,25 @@ class DrawerTile extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: thirtyTwo),
-              child: Icon(
-                iconData,
-                size: thirtyTwo,
-                color: viewmodel.page == page ? primaryColor : Colors.grey[700],
-              ),
+              child: Observer(builder: (_) {
+                return Icon(
+                  iconData,
+                  size: thirtyTwo,
+                  color:
+                      viewmodel.page == page ? primaryColor : Colors.grey[700],
+                );
+              }),
             ),
-            Text(
-              menuOptionTitle,
-              style: TextStyle(fontSize: sixteen, color: Colors.grey[700]),
-            )
+            Observer(builder: (_) {
+              return Text(
+                menuOptionTitle,
+                style: TextStyle(
+                  fontSize: sixteen,
+                  color:
+                      viewmodel.page == page ? primaryColor : Colors.grey[700],
+                ),
+              );
+            })
           ],
         ),
       ),
