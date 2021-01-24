@@ -20,6 +20,10 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+scripts: 
+  mobx_build: $runner build --delete-conflicting-outputs
+  mobx_watch: $runner watch --delete-conflicting-outputs
+
 dependencies:
   flutter:
     sdk: flutter
@@ -33,6 +37,10 @@ dependencies:
   provider: ^4.1.2
   mobx: ^1.2.1+4
   flutter_mobx: ^1.0.0
+  connectivity: ^0.4.9+3
+  dio: ^3.0.10
+  get_it: ^5.0.6
+
 
 dev_dependencies:
   flutter_test:
