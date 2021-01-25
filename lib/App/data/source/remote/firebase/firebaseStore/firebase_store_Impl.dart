@@ -23,11 +23,23 @@ class FirebaseStoreImpl implements FirebaseStoreI {
 
   Future<Result> getUserDocument({String uid}) async {
     try {
-      DocumentSnapshot user = await _databaseReference.collection("users").document(uid).get();
+      DocumentSnapshot user =
+          await _databaseReference.collection("users").document(uid).get();
       if (user != null) {
         return Result(item: user);
       }
       return Result(errorMessage: "Not User");
+    } on PlatformException catch (e) {
+      return Result(errorMessage: getErrorString(e.code));
+    }
+  }
+
+  @override
+  Future<Result> getAllProducts() async {
+    try {
+      final documents =
+          await _databaseReference.collection("products").getDocuments();
+      return Result(item: documents);
     } on PlatformException catch (e) {
       return Result(errorMessage: getErrorString(e.code));
     }

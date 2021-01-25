@@ -36,7 +36,7 @@ abstract class _LoginViewModelBase with Store {
 
   Future<void> signUser({Function onFail, Function onSuccess}) async {
     setLoading(true);
-    userCase
+    await userCase
         .signIn(
             user: User(email: email.trim(), password: password.trim()))
         .then((value) async {

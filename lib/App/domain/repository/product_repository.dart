@@ -1,0 +1,1 @@
+import 'package:loja_virtual/app/domain/models/result_firebase.dart';abstract class ProductRepository {  Future<Result> getAllProducts();}
