@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/App/di/setup_locator.dart';
-import 'package:loja_virtual/App/domain/models/user.dart';
-import 'package:loja_virtual/App/domain/usecase/base_usecase_impl.dart';
+import 'package:loja_virtual/app/di/setup_locator.dart';
+import 'package:loja_virtual/app/domain/models/user.dart';
+import 'package:loja_virtual/app/domain/usecase/user_usecase_impl.dart';
 import 'package:mobx/mobx.dart';
+
 part 'base_viewmodel.g.dart';
 
 class BaseScreenViewModel = _BaseScreenViewModelBase with _$BaseScreenViewModel;
 
 abstract class _BaseScreenViewModelBase with Store {
 
-  final baseUsecase = getIt<BaseUseCase>();
+  final userUsecase = getIt<UserUseCase>();
 
   PageController pageController = PageController();
 
@@ -37,7 +38,7 @@ abstract class _BaseScreenViewModelBase with Store {
 
   @action
   Future<void> getCurrentUser() async {
-    baseUsecase.getCurrentUser(onSuccess: (user) {
+    userUsecase.getCurrentUser(onSuccess: (user) {
       isLoggedIn = true;
       getCurrentUserStore(uid: user);
     }, onFail: () {
@@ -47,7 +48,7 @@ abstract class _BaseScreenViewModelBase with Store {
 
   @action
   Future<void> getCurrentUserStore({String uid}) async {
-    baseUsecase.getCurrentUserStore(
+    userUsecase.getCurrentUserStore(
         uid: uid,
         onSuccess: (user) {
           isLoggedIn = true;
@@ -61,7 +62,7 @@ abstract class _BaseScreenViewModelBase with Store {
 
   @action
   void signOut({Function onFail, Function onSuccess}) {
-    baseUsecase.signOut(onSuccess: () {
+    userUsecase.signOut(onSuccess: () {
       onSuccess.call();
     }, onFail: () {
       onFail.call();

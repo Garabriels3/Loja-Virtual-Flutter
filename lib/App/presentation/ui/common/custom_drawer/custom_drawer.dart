@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/shared/resources/strings.dart';
-
 import 'custom_drawer_header.dart';
 import 'drawer_tile.dart';
 
@@ -13,7 +12,7 @@ class CustomDrawer extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Color.fromARGB(255, 203, 236, 241), Colors.white],
+                  colors: [Color.fromARGB(255, 173, 216, 241), Colors.white],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/App/presentation/ui/base/base_page.dart';
-import 'package:loja_virtual/App/presentation/ui/login/login_page.dart';
-import 'package:loja_virtual/App/presentation/ui/signUp/sign_up_page.dart';
+import 'package:loja_virtual/app/presentation/ui/base/base_page.dart';
+import 'package:loja_virtual/app/presentation/ui/login/login_page.dart';
+import 'package:loja_virtual/app/presentation/ui/signUp/sign_up_page.dart';
 
 class MarketPlaceApp extends StatelessWidget {
   @override
