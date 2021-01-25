@@ -1,15 +1,14 @@
-import 'package:loja_virtual/App/data/source/remote/firebase/firebaseAuth/firebase_auth_I.dart';
-import 'package:loja_virtual/App/data/source/remote/firebase/firebaseStore/firebase_store_I.dart';
-import 'package:loja_virtual/App/di/setup_locator.dart';
-import 'package:loja_virtual/App/domain/models/user.dart';
+import 'package:loja_virtual/app/di/setup_locator.dart';
+import 'package:loja_virtual/app/domain/models/user.dart';
+import 'package:loja_virtual/app/domain/usecase/user_usecase_impl.dart';
 import 'package:mobx/mobx.dart';
+
 part 'sign_up_viewmodel.g.dart';
 
 class SignUpViewModel = _SignUpViewModelBase with _$SignUpViewModel;
 
 abstract class _SignUpViewModelBase with Store {
-  final auth = getIt<FirebaseAuthI>();
-  final store = getIt<FirebaseStoreI>();
+  final userCase = getIt<UserUseCase>();
 
   String get name => _name;
   @observable
@@ -50,9 +49,9 @@ abstract class _SignUpViewModelBase with Store {
 
   void signUpUser({Function onFail, Function onSuccess}) {
     _loading = true;
-    auth
+    userCase
         .signUp(
-            userRequest: User(
+            user: User(
                 email: email.trim(),
                 name: name.trim(),
                 password: pass.trim(),
@@ -71,9 +70,9 @@ abstract class _SignUpViewModelBase with Store {
   }
 
   void createUserOnFireStore({String uid}) {
-    store.createUser(
-        uid,
-        User(
+    userCase.createUserStore(
+        userUid: uid,
+        user: User(
             email: email.trim(),
             name: name.trim(),
             password: pass.trim(),

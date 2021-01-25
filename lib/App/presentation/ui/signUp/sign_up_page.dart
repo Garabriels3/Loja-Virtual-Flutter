@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:loja_virtual/App/di/setup_locator.dart';
-import 'package:loja_virtual/App/presentation/ui/signUp/sign_up_viewmodel.dart';
+import 'package:loja_virtual/app/di/setup_locator.dart';
+import 'package:loja_virtual/app/presentation/ui/signUp/sign_up_viewmodel.dart';
 import 'package:loja_virtual/shared/helpers/validators.dart';
 import 'package:loja_virtual/shared/resources/dimens.dart';
 import 'package:loja_virtual/shared/resources/strings.dart';

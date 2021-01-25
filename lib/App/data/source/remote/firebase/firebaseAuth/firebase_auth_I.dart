@@ -1,5 +1,5 @@
-import 'package:loja_virtual/App/domain/models/result_firebase.dart';
-import 'package:loja_virtual/App/domain/models/user.dart';
+import 'package:loja_virtual/app/domain/models/result_firebase.dart';
+import 'package:loja_virtual/app/domain/models/user.dart';
 
 abstract class FirebaseAuthI {
   Future<VoidResult> signIn({User userRequest});

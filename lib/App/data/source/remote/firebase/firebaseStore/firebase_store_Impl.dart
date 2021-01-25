@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:loja_virtual/App/domain/models/result_firebase.dart';
-import 'package:loja_virtual/App/domain/models/user.dart';
+import 'package:loja_virtual/app/domain/models/result_firebase.dart';
+import 'package:loja_virtual/app/domain/models/user.dart';
 import 'package:loja_virtual/shared/helpers/firebase_errors.dart';
 import 'firebase_store_I.dart';
 

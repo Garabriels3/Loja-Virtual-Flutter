@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:loja_virtual/App/di/setup_locator.dart';
-import 'package:loja_virtual/App/presentation/ui/base/base_viewmodel.dart';
+import 'package:loja_virtual/app/di/setup_locator.dart';
+import 'package:loja_virtual/app/presentation/ui/base/base_viewmodel.dart';
 import 'package:loja_virtual/shared/resources/dimens.dart';
 
 class CustomDrawerHeader extends StatelessWidget {

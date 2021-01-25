@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:loja_virtual/App/di/setup_locator.dart';
+import 'package:loja_virtual/app/di/setup_locator.dart';
 import 'package:loja_virtual/shared/helpers/validators.dart';
 import 'package:loja_virtual/shared/resources/dimens.dart';
 import 'package:loja_virtual/shared/resources/strings.dart';
-import 'package:provider/provider.dart';
 
 import 'login_viewmodel.dart';
 
