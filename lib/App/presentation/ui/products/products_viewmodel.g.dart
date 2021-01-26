@@ -24,6 +24,21 @@ mixin _$ProductsViewModel on _ProductsViewModelBase, Store {
     });
   }
 
+  final _$_searchAtom = Atom(name: '_ProductsViewModelBase._search');
+
+  @override
+  String get _search {
+    _$_searchAtom.reportRead();
+    return super._search;
+  }
+
+  @override
+  set _search(String value) {
+    _$_searchAtom.reportWrite(value, super._search, () {
+      super._search = value;
+    });
+  }
+
   final _$_onErrorMessageAtom =
       Atom(name: '_ProductsViewModelBase._onErrorMessage');
 
@@ -46,6 +61,20 @@ mixin _$ProductsViewModel on _ProductsViewModelBase, Store {
   @override
   Future<void> getAllProducts() {
     return _$getAllProductsAsyncAction.run(() => super.getAllProducts());
+  }
+
+  final _$_ProductsViewModelBaseActionController =
+      ActionController(name: '_ProductsViewModelBase');
+
+  @override
+  dynamic onChangeSearch(String newSearch) {
+    final _$actionInfo = _$_ProductsViewModelBaseActionController.startAction(
+        name: '_ProductsViewModelBase.onChangeSearch');
+    try {
+      return super.onChangeSearch(newSearch);
+    } finally {
+      _$_ProductsViewModelBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

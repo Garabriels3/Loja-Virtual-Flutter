@@ -14,9 +14,16 @@ abstract class _ProductsViewModelBase with Store {
   @observable
   List<Product> _allProducts = [];
 
+  String get search => _search;
+  @observable
+  String _search = "";
+
   String get onErrorMessage => _onErrorMessage;
   @observable
   String _onErrorMessage = "";
+
+  @action
+  onChangeSearch(String newSearch) => _search = newSearch;
 
   @action
   Future<void> getAllProducts() async {
@@ -25,5 +32,21 @@ abstract class _ProductsViewModelBase with Store {
     }, onFail: (errorMessage) {
       _onErrorMessage = errorMessage;
     });
+  }
+
+  List<Product> get filterProducts {
+    final List<Product> fProducts = [];
+
+    if (search.isEmpty) {
+      fProducts.addAll(_allProducts);
+    } else {
+      fProducts.addAll(_allProducts.where((product) =>
+          product.name.toLowerCase().contains(search.toLowerCase())));
+    }
+    return fProducts;
+  }
+
+  void setFilterNull() {
+    _search = "";
   }
 }
