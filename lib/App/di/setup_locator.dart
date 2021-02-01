@@ -9,6 +9,7 @@ import 'package:loja_virtual/app/domain/repository/user_repository.dart';
 import 'package:loja_virtual/app/domain/usecase/product_usecase_impl.dart';
 import 'package:loja_virtual/app/presentation/ui/base/base_viewmodel.dart';
 import 'package:loja_virtual/app/presentation/ui/login/login_viewmodel.dart';
+import 'package:loja_virtual/app/presentation/ui/product_details/product_detail_viewmodel.dart';
 import 'package:loja_virtual/app/presentation/ui/products/products_viewmodel.dart';
 import 'package:loja_virtual/app/presentation/ui/signUp/sign_up_viewmodel.dart';
 import 'package:loja_virtual/app/data/repository/user_repository_impl.dart';
@@ -27,4 +28,5 @@ void setupLocator() {
   getIt.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl());
   getIt.registerLazySingleton<ProductUseCase>(() => ProductUseCaseImpl());
   getIt.registerLazySingleton<ProductsViewModel>(() => ProductsViewModel());
+  getIt.registerLazySingleton<ProductDetailsViewModel>(() => ProductDetailsViewModel());
 }
