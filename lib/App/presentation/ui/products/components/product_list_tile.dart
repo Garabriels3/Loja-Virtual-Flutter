@@ -23,8 +23,10 @@ class ProductListTile extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: 1,
-                child: Image.network(
-                    "https://static.wikia.nocookie.net/kirby/images/7/71/Kirby_KSA_Arte.png/revision/latest?cb=20200704132348&path-prefix=pt-br"),
+                child: Image.network(product.images.first),
+              ),
+              SizedBox(
+                width: twenty,
               ),
               Expanded(
                 child: Column(
@@ -45,7 +47,7 @@ class ProductListTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "R\$ 19,99",
+                      "R\$ ${product.sizes.first.price}",
                       style: TextStyle(
                           fontSize: sixteen,
                           fontWeight: FontWeight.w800,
