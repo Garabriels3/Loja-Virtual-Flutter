@@ -18,7 +18,8 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewmodel = getIt<ProductDetailsViewModel>();
     viewmodel.getCurrentUser();
-
+    viewmodel.getSizesOnInit(item: product.sizes);
+    viewmodel.getProductOnInit(prod: product);
     final dispose = autorun((_) => viewmodel.selectedSize = null);
 
     dispose();
@@ -110,19 +111,24 @@ class ProductDetailPage extends StatelessWidget {
                   height: fortyFour,
                   child: Observer(builder: (_) {
                     return RaisedButton(
-                      onPressed: viewmodel.selectedSize != null ? () {
-                        if(viewmodel.isLoggedIn) {
-                          //TODO: Add ao carrinho
-                          print("ADD AO CARRLITOS");
-                        } else {
-                          Navigator.of(context).pushNamed("/login");
-                        }
-                      } : null,
+                      onPressed: viewmodel.selectedSize != null
+                          ? () {
+                              if (viewmodel.isLoggedIn) {
+                                viewmodel.addOnCart(product: product);
+                                Navigator.of(context).pushNamed("/cart");
+                              } else {
+                                Navigator.of(context).pushNamed("/login");
+                              }
+                            }
+                          : null,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: Text(viewmodel.isLoggedIn
-                          ? "Adicionar ao carrinho"
-                          : "Entrar para comprar", style: TextStyle(fontSize: eighteen),),
+                      child: Text(
+                        viewmodel.isLoggedIn
+                            ? "Adicionar ao carrinho"
+                            : "Entrar para comprar",
+                        style: TextStyle(fontSize: eighteen),
+                      ),
                     );
                   }),
                 )

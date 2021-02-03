@@ -25,50 +25,97 @@ mixin _$ProductDetailsViewModel on _ProductDetailsViewModelBase, Store {
     });
   }
 
-  final _$isSelectedAtom =
-      Atom(name: '_ProductDetailsViewModelBase.isSelected');
+  final _$itemSizeAtom = Atom(name: '_ProductDetailsViewModelBase.itemSize');
 
   @override
-  bool get isSelected {
-    _$isSelectedAtom.reportRead();
-    return super.isSelected;
+  List<ItemSize> get itemSize {
+    _$itemSizeAtom.reportRead();
+    return super.itemSize;
   }
 
   @override
-  set isSelected(bool value) {
-    _$isSelectedAtom.reportWrite(value, super.isSelected, () {
-      super.isSelected = value;
+  set itemSize(List<ItemSize> value) {
+    _$itemSizeAtom.reportWrite(value, super.itemSize, () {
+      super.itemSize = value;
     });
   }
 
-  final _$stateAtom = Atom(name: '_ProductDetailsViewModelBase.state');
+  final _$productAtom = Atom(name: '_ProductDetailsViewModelBase.product');
 
   @override
-  bool get state {
-    _$stateAtom.reportRead();
-    return super.state;
+  Product get product {
+    _$productAtom.reportRead();
+    return super.product;
   }
 
   @override
-  set state(bool value) {
-    _$stateAtom.reportWrite(value, super.state, () {
-      super.state = value;
+  set product(Product value) {
+    _$productAtom.reportWrite(value, super.product, () {
+      super.product = value;
     });
   }
 
-  final _$isLoggedInAtom =
-      Atom(name: '_ProductDetailsViewModelBase.isLoggedIn');
+  final _$_cartProductAtom =
+      Atom(name: '_ProductDetailsViewModelBase._cartProduct');
 
   @override
-  bool get isLoggedIn {
-    _$isLoggedInAtom.reportRead();
-    return super.isLoggedIn;
+  CartProduct get _cartProduct {
+    _$_cartProductAtom.reportRead();
+    return super._cartProduct;
   }
 
   @override
-  set isLoggedIn(bool value) {
-    _$isLoggedInAtom.reportWrite(value, super.isLoggedIn, () {
-      super.isLoggedIn = value;
+  set _cartProduct(CartProduct value) {
+    _$_cartProductAtom.reportWrite(value, super._cartProduct, () {
+      super._cartProduct = value;
+    });
+  }
+
+  final _$_cartManagerAtom =
+      Atom(name: '_ProductDetailsViewModelBase._cartManager');
+
+  @override
+  List<CartProduct> get _cartManager {
+    _$_cartManagerAtom.reportRead();
+    return super._cartManager;
+  }
+
+  @override
+  set _cartManager(List<CartProduct> value) {
+    _$_cartManagerAtom.reportWrite(value, super._cartManager, () {
+      super._cartManager = value;
+    });
+  }
+
+  final _$_isSelectedAtom =
+      Atom(name: '_ProductDetailsViewModelBase._isSelected');
+
+  @override
+  bool get _isSelected {
+    _$_isSelectedAtom.reportRead();
+    return super._isSelected;
+  }
+
+  @override
+  set _isSelected(bool value) {
+    _$_isSelectedAtom.reportWrite(value, super._isSelected, () {
+      super._isSelected = value;
+    });
+  }
+
+  final _$_isLoggedInAtom =
+      Atom(name: '_ProductDetailsViewModelBase._isLoggedIn');
+
+  @override
+  bool get _isLoggedIn {
+    _$_isLoggedInAtom.reportRead();
+    return super._isLoggedIn;
+  }
+
+  @override
+  set _isLoggedIn(bool value) {
+    _$_isLoggedInAtom.reportWrite(value, super._isLoggedIn, () {
+      super._isLoggedIn = value;
     });
   }
 
@@ -95,12 +142,44 @@ mixin _$ProductDetailsViewModel on _ProductDetailsViewModelBase, Store {
   }
 
   @override
+  void getSizesOnInit({List<ItemSize> item}) {
+    final _$actionInfo = _$_ProductDetailsViewModelBaseActionController
+        .startAction(name: '_ProductDetailsViewModelBase.getSizesOnInit');
+    try {
+      return super.getSizesOnInit(item: item);
+    } finally {
+      _$_ProductDetailsViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getProductOnInit({Product prod}) {
+    final _$actionInfo = _$_ProductDetailsViewModelBaseActionController
+        .startAction(name: '_ProductDetailsViewModelBase.getProductOnInit');
+    try {
+      return super.getProductOnInit(prod: prod);
+    } finally {
+      _$_ProductDetailsViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addOnCart({Product product}) {
+    final _$actionInfo = _$_ProductDetailsViewModelBaseActionController
+        .startAction(name: '_ProductDetailsViewModelBase.addOnCart');
+    try {
+      return super.addOnCart(product: product);
+    } finally {
+      _$_ProductDetailsViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 selectedSize: ${selectedSize},
-isSelected: ${isSelected},
-state: ${state},
-isLoggedIn: ${isLoggedIn}
+itemSize: ${itemSize},
+product: ${product}
     ''';
   }
 }
